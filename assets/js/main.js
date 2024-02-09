@@ -21,42 +21,54 @@ const error = document.querySelector("header p");
 const moviesOutput = document.querySelector(".movie-container");
 
 // ! jeden Film in einem eigenen Div ausgeben:
-// const displayMovies = movies.map((movieInfo) => {
-//     return (moviesOutput.innerHTML += `<div>
-//     <h2>${movieInfo[0]}</h2>
-//     <p>${movieInfo[1]}</p>
-//     <h3>${movieInfo[2]}</h3>
-//     <p>${movieInfo[3]}</p>
-//     <p>${movieInfo[4].map((genre) => genre).join(`<br>`)}</p>
-//     <p>${movieInfo[5]}</p>
-//     </div>`);
-//   });
-
 const displayMovies = movies.map((movieInfo) => {
   return (moviesOutput.innerHTML += `<div>
-  <h2>${movieInfo[0]}</h2>
-  <p>${movieInfo[1]}</p>
-  <h3>${movieInfo[2]}</h3>
-  <p>${movieInfo[3]}</p>
-  <p>${movieInfo[4].map((genre) => genre).join(`<br>`)}</p>
-  <p>${movieInfo[5]}</p>
-  </div>`);
+    <h2>${movieInfo[0]}</h2>
+    <p>${movieInfo[1]}</p>
+    <h3>${movieInfo[2]}</h3>
+    <p>${movieInfo[3]}</p>
+    <p>${movieInfo[4].map((genre) => genre).join(`<br>`)}</p>
+    <p>${movieInfo[5]}</p>
+    </div>`);
 });
 
-// ! Filtern nach Suchwort
+function showMovies(array) {
+  array.map((movieInfo) => {
+    return (moviesOutput.innerHTML += `<div>
+          <h2>${movieInfo[0]}</h2>
+          <p>${movieInfo[1]}</p>
+          <h3>${movieInfo[2]}</h3>
+          <p>${movieInfo[3]}</p>
+          <p>${movieInfo[4].map((genre) => genre).join(`<br>`)}</p>
+          <p>${movieInfo[5]}</p>
+          </div>`);
+  });
+}
 
+// ! Filtern nach Suchwort
 function search(event) {
   event.preventDefault();
-  const searchInput = document.querySelector("input[type='text']").value;
-  const moviesLowerCase = movies.toLowerCase();
-  console.log(moviesLowerCase);
+  const searchInput = document
+    .querySelector("input[type='text']")
+    .value.toLowerCase();
+  //   console.log(moviesLowerCase);
 
-  const filteredMovies = movies.filter((title) => {
-    return title.includes(searchInput);
+  const filteredMoviesTitle = movies.filter((title) => {
+    return title[0].toLowerCase().includes(searchInput);
   });
-  console.log(filteredMovies);
+  moviesOutput.innerHTML = "";
+  console.log(filteredMoviesTitle);
+  showMovies(filteredMoviesTitle);
 
-  // nur gefilterte Filme dann anzeigen mit displayMovies(filteredMovies???)
+  const filteredMoviesReg = movies.filter((title) => {
+    return title[2].toLowerCase().includes(searchInput);
+  });
+  moviesOutput.innerHTML = "";
+  console.log(filteredMoviesReg);
+  showMovies(filteredMoviesReg);
 }
 
 // ! Sortieren nach year up, year down, best rate
+// function sortYearUp() {
+//   movies[0].sort();
+// }
