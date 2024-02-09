@@ -16,59 +16,93 @@
 // 6. array im HTML ausgeben
 // 7. container im HTML, in den dann alle divs reinlaufen sollen
 
-// ! Outputs
+// ! Outputs:
 const error = document.querySelector("header p");
 const moviesOutput = document.querySelector(".movie-container");
 
-// ! jeden Film in einem eigenen Div ausgeben:
-const displayMovies = movies.map((movieInfo) => {
-  return (moviesOutput.innerHTML += `<div>
-    <h2>${movieInfo[0]}</h2>
-    <p>${movieInfo[1]}</p>
-    <h3>${movieInfo[2]}</h3>
-    <p>${movieInfo[3]}</p>
-    <p>${movieInfo[4].map((genre) => genre).join(`<br>`)}</p>
-    <p>${movieInfo[5]}</p>
-    </div>`);
-});
+// ! veränderbare Variable für das array:
+let allMovies = movies;
 
+// ! jeden Film in einem eigenen Div ausgeben:
+// const displayMovies = movies.map((movieInfo) => {
+//   return (moviesOutput.innerHTML += `<div>
+//     <h2>${movieInfo[0]}</h2>
+//     <p>${movieInfo[1]}</p>
+//     <h3>${movieInfo[2]}</h3>
+//     <p>${movieInfo[3]}</p>
+//     <p>${movieInfo[4].map((genre) => genre).join(`<br>`)}</p>
+//     <p>${movieInfo[5]}</p>
+//     </div>`);
+// });
+
+//* das gleiche wie oben nur als Funktion, damit wiederverwendbar:
 function showMovies(array) {
-  array.map((movieInfo) => {
+  array.forEach((movieInfo) => {
+    const genre = movieInfo[4].join(`<br>`);
     return (moviesOutput.innerHTML += `<div>
           <h2>${movieInfo[0]}</h2>
           <p>${movieInfo[1]}</p>
           <h3>${movieInfo[2]}</h3>
           <p>${movieInfo[3]}</p>
-          <p>${movieInfo[4].map((genre) => genre).join(`<br>`)}</p>
+          <p>${genre}</p>
           <p>${movieInfo[5]}</p>
           </div>`);
   });
 }
+showMovies(allMovies);
 
 // ! Filtern nach Suchwort
 function search(event) {
   event.preventDefault();
+  // input-Value auslesen in Kleinbuchstaben:
   const searchInput = document
     .querySelector("input[type='text']")
     .value.toLowerCase();
-  //   console.log(moviesLowerCase);
 
-  const filteredMoviesTitle = movies.filter((title) => {
-    return title[0].toLowerCase().includes(searchInput);
-  });
+  // Suchfunktion für jede einzelne Position:
+  allMovies = movies.filter(
+    (title) =>
+      title[0].toLowerCase().includes(searchInput) ||
+      title[1] === searchInput ||
+      title[2].toLowerCase().includes(searchInput) ||
+      title[3].toLowerCase().includes(searchInput) ||
+      title[4].join().toLowerCase().includes(searchInput) ||
+      title[5] === searchInput
+  );
+  // die vorherigen Inhalte zuerst löschen:
   moviesOutput.innerHTML = "";
-  console.log(filteredMoviesTitle);
-  showMovies(filteredMoviesTitle);
-
-  const filteredMoviesReg = movies.filter((title) => {
-    return title[2].toLowerCase().includes(searchInput);
-  });
-  moviesOutput.innerHTML = "";
-  console.log(filteredMoviesReg);
-  showMovies(filteredMoviesReg);
+  // dann die gefilterten Filme mittels der showMovies-Funktion anzeigen:
+  showMovies(allMovies);
 }
 
-// ! Sortieren nach year up, year down, best rate
-// function sortYearUp() {
-//   movies[0].sort();
-// }
+// ! Sortieren nach year up
+function sortYearUp() {
+  allMovies.sort((movie1, movie2) => {
+    return movie1[1] - movie2[1];
+  });
+  moviesOutput.innerHTML = "";
+  showMovies(allMovies);
+}
+
+// ! Sortieren nach year down
+function sortYearDown() {
+  allMovies.sort((movie1, movie2) => {
+    return movie2[1] - movie1[1];
+  });
+  moviesOutput.innerHTML = "";
+  showMovies(allMovies);
+}
+
+// ! Sortieren nach best rate
+function sortBestRate() {
+  allMovies.sort((movie1, movie2) => {
+    return movie2[5] - movie1[5];
+  });
+  moviesOutput.innerHTML = "";
+  showMovies(allMovies);
+}
+
+// ! Sortierung rückgängig machen, zurück zum Urzustand:
+function sortOriginal() {
+  showMovies(movies);
+}

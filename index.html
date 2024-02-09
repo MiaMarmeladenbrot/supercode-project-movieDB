@@ -21,12 +21,29 @@
           <div>
             <input
               type="button"
+              id="return"
+              value="Return"
+              onclick="sortOriginal()"
+            />
+
+            <input
+              type="button"
               id="year-up"
               value="Year Up"
               onclick="sortYearUp()"
             />
-            <input type="button" id="year-down" value="Year Down" />
-            <input type="button" id="best-rate" value="Best Rate" />
+            <input
+              type="button"
+              id="year-down"
+              value="Year Down"
+              onclick="sortYearDown()"
+            />
+            <input
+              type="button"
+              id="best-rate"
+              value="Best Rate"
+              onclick="sortBestRate()"
+            />
           </div>
         </form>
         <p></p>
