@@ -38,19 +38,19 @@ let allMovies = movies;
 //* das gleiche wie oben nur als Funktion, damit wiederverwendbar:
 function showMovies(array) {
   array.forEach((movieInfo) => {
-    const genre = movieInfo[4].join(`<br>`);
     return (moviesOutput.innerHTML += `<div>
           <h2>${movieInfo[0]}</h2>
           <p>${movieInfo[1]}</p>
           <h3>${movieInfo[2]}</h3>
           <p>${movieInfo[3]}</p>
-          <p>${genre}</p>
+          <p>${movieInfo[4].join(`<br>`)}</p>
           <p>${movieInfo[5]}</p>
           </div>`);
   });
 }
 showMovies(allMovies);
 
+// # noch eine Fehlermeldung einbauen
 // ! Filtern nach Suchwort
 function search(event) {
   event.preventDefault();
