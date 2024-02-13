@@ -21,6 +21,7 @@ const error = document.querySelector("header p");
 const moviesOutput = document.querySelector(".movie-container");
 
 // ! veränderbare Variable für das array:
+// damit die Suchergebnisse bzw. sortierten Filme auch angezeigt werden können
 let allMovies = movies;
 
 // ! jeden Film in einem eigenen Div ausgeben:
@@ -35,7 +36,7 @@ let allMovies = movies;
 //     </div>`);
 // });
 
-//* das gleiche wie oben nur als Funktion, damit wiederverwendbar:
+//* das gleiche wie oben nur als Funktion, damit wiederverwendbar auch für die Suchergebnisse bzw. sortierten Filme:
 function showMovies(array) {
   array.forEach((movieInfo) => {
     return (moviesOutput.innerHTML += `<div>
@@ -59,15 +60,15 @@ function search(event) {
     .querySelector("input[type='text']")
     .value.toLowerCase();
 
-  // Suchfunktion für jede einzelne Position:
+  // Suchfunktion, durchsucht jeden Index der Arrays im Array:
   allMovies = movies.filter(
     (title) =>
-      title[0].toLowerCase().includes(searchInput) ||
-      title[1] === searchInput ||
-      title[2].toLowerCase().includes(searchInput) ||
-      title[3].toLowerCase().includes(searchInput) ||
-      title[4].join().toLowerCase().includes(searchInput) ||
-      title[5] === searchInput
+      title[0].toLowerCase().includes(searchInput) || // Titel
+      title[1].includes(searchInput) || // Jahr
+      title[2].toLowerCase().includes(searchInput) || // RegisseurIn
+      title[3].toLowerCase().includes(searchInput) || // Dauer
+      title[4].join().toLowerCase().includes(searchInput) || // Genre (nested array)
+      title[5].includes(searchInput) // Rating
   );
   // die vorherigen Inhalte zuerst löschen:
   moviesOutput.innerHTML = "";
